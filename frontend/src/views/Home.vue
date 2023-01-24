@@ -85,6 +85,8 @@ export default {
 
   created() {
     this.$store.dispatch("fetchHotels");
+    this.$store.dispatch('loadCartItems');
+    this.$store.dispatch("loadOrders");
   },
 
   computed: {
@@ -93,8 +95,7 @@ export default {
 
   methods: {
     ...mapActions([
-      "loadOrders",
-      "loadCartItems",
+      
       "loadMenuItems",
       "deleteHotel",
       "editHotel",
