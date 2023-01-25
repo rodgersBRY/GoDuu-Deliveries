@@ -112,17 +112,16 @@ export default {
   },
 
   methods: {
-    ...mapActions(["newHotel", "fetchHotels", "updateHotel"]),
+    ...mapActions(["newHotel", "updateHotel"]),
 
     submit() {
       if (this.edit) {
         this.updateHotel(this.form);
-        this.fetchHotels();
+        this.closeDialog();
       } else {
         this.newHotel(this.form);
+        this.closeDialog();
       }
-
-      this.closeDialog();
     },
 
     onPickFile() {
@@ -137,7 +136,9 @@ export default {
         image: null,
       };
       this.imageUrl = "";
+
       this.dialog = false;
+      this.$store.dispatch("fetchOwnerHotels");
     },
 
     onFileSelected(e) {

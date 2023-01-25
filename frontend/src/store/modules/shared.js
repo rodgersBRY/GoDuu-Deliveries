@@ -16,7 +16,6 @@ export default {
     clearError(state) {
       state.error = null;
     },
-
   },
 
   getters: {

@@ -29,6 +29,10 @@ export default {
         ...state.hotels.slice(hotelIndex++),
       ];
     },
+    
+    clearHotels(state) {
+      state.hotels = [];
+    },
   },
 
   actions: {
@@ -38,6 +42,21 @@ export default {
       try {
         const res = await axios.get("/hotels");
         commit("setHotels", res.data.hotels);
+        commit("clearError");
+        commit("setLoading", false);
+      } catch (err) {
+        commit("setLoading", false);
+        commit("setError", err.response.data.message);
+      }
+    },
+
+    async fetchOwnerHotels({ commit }) {
+      commit("setLoading", true);
+
+      try {
+        const res = await axios.get("/hotels/owner");
+        console.log(res.data);
+        commit("setHotels", res.data);
         commit("clearError");
         commit("setLoading", false);
       } catch (err) {
@@ -65,7 +84,7 @@ export default {
 
       try {
         await axios.delete(`/admin/hotel/${id}`);
-        commit('deleteHotel', id)
+        commit("deleteHotel", id);
         commit("clearError");
         commit("setLoading", false);
       } catch (err) {

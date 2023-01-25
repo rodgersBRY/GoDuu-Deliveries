@@ -22,7 +22,10 @@
             <v-icon v-else>mdi-account</v-icon>
           </v-avatar>
 
-          <section class="non-admin" v-if="isAuthenticated && user.status !== 'admin'">
+          <section
+            class="non-admin"
+            v-if="isAuthenticated && user.status !== 'admin'"
+          >
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-badge
@@ -39,7 +42,7 @@
               </template>
               <span>Cart</span>
             </v-tooltip>
-<!-- 
+            <!-- 
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn icon dark class="mr-3" v-bind="attrs" v-on="on">

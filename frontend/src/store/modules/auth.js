@@ -27,6 +27,7 @@ export default {
         commit("clearCart");
         commit("clearOrders");
         commit("logout");
+        commit("clearHotels");
         localStorage.removeItem("token");
         delete Axios.defaults.headers.common["Authorization"];
       }, 3600 * 1000);
@@ -69,7 +70,7 @@ export default {
 
         commit("setUser", { user: res.data.loadedUser, token: token });
         commit("clearError");
-        
+
         dispatch("setLogoutTimer");
         commit("setLoading", false);
       } catch (err) {
@@ -84,6 +85,7 @@ export default {
       commit("clearError");
       commit("clearCart");
       commit("clearOrders");
+      commit("clearHotels");
       commit("logout");
       localStorage.removeItem("token");
       delete Axios.defaults.headers.common["Authorization"];

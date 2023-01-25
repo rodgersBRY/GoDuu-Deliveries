@@ -57,7 +57,12 @@
               <v-btn icon class="mr-7" @click="removeHotel(ht._id)">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
-              <new-hotel :hotel="ht" :edit="true" :icon="true" color="grey darken-2">
+              <new-hotel
+                :hotel="ht"
+                :edit="true"
+                :icon="true"
+                color="grey darken-2"
+              >
                 <v-icon>mdi-pencil</v-icon>
               </new-hotel>
             </v-row>
@@ -84,9 +89,13 @@ export default {
   },
 
   created() {
-    this.$store.dispatch("fetchHotels");
-    this.$store.dispatch('loadCartItems');
-    this.$store.dispatch("loadOrders");
+    if (this.user.status === "admin") {
+      this.$store.dispatch("fetchOwnerHotels");
+    } else {
+      this.$store.dispatch("fetchHotels");
+      this.$store.dispatch("loadCartItems");
+      this.$store.dispatch("loadOrders");
+    }
   },
 
   computed: {
@@ -94,12 +103,7 @@ export default {
   },
 
   methods: {
-    ...mapActions([
-      
-      "loadMenuItems",
-      "deleteHotel",
-      "editHotel",
-    ]),
+    ...mapActions(["loadMenuItems", "deleteHotel"]),
 
     toHotel(id) {
       this.$router.push({ name: "Hotel", params: { Hid: id } });
@@ -108,10 +112,6 @@ export default {
     async removeHotel(id) {
       await this.deleteHotel(id);
       alert("Hotel deleted successfully!");
-    },
-
-    updateHotel(id) {
-      this.editHotel(id);
     },
   },
 };
