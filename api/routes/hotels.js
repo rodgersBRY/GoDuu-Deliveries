@@ -9,6 +9,8 @@ const router = express.Router();
 
 router.get("/", hotelController.getHotels);
 
+router.get("/owner", isAuth, hotelController.getOwnersHotels);
+
 router.get("/:hotelId/menu-items", menuController.getMenuItems);
 
 module.exports = router;

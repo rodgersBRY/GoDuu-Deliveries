@@ -3,6 +3,7 @@ const User = require("../models/user");
 const Item = require("../models/menu-item");
 const multer = require("multer");
 const path = require("path");
+const mongoose = require("mongoose");
 
 exports.getHotels = async (req, res, next) => {
   try {
@@ -20,6 +21,24 @@ exports.getHotels = async (req, res, next) => {
     if (!err.statusCode) {
       err.statusCode = 500;
     }
+    next(err);
+  }
+};
+
+// get all the hotels associated with one user
+// for the merchants
+exports.getOwnersHotels = async (req, res, next) => {
+  try {
+    const hotels = await Hotel.find({ userId: req.userId });
+
+    if (!hotels) {
+      return res
+        .status(200)
+        .json({ message: "There are no hotels managed by this user" });
+    }
+
+    res.status(200).json(hotels);
+  } catch (err) {
     next(err);
   }
 };
@@ -45,7 +64,7 @@ exports.addHotel = async (req, res, next) => {
       userId: req.userId,
       phoneNo: phoneNo,
     });
-    
+
     const result = await hotel.save();
     res.status(201).json({
       hotel: result,
